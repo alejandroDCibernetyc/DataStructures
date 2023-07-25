@@ -12,6 +12,7 @@ class Queue:
     def __init__(self):
         '''Çreate an empty Linked List'''
         self.head = None        #reference to the head node
+        self.tail = None
         self.size = 0           #number of list elements, initialize as empty 
     
     def _len(self):
@@ -26,54 +27,34 @@ class Queue:
         '''check if the current node is the tail'''
         return node.next == None                   #Return True if it's the tail
     
-    def push_head(self, element):
-        '''Add element to the top (in the head) of the list'''
 
-        return
-
-    def push_tail(self, element):
+    def enqueue(self, element):
         '''Add node in the tail'''
         if self.is_empty():
             self.head = Node(element, self.head)        #Declare new node as Head
+            self.tail = self.head
             self.size += 1                              #Increase the list size
         else:
-            old_tail = self.head                            #Start our pointer
-            new_tail = Node(element, None)                        #Instance of new node
-            while (self.__is_tail(old_tail) == False):       #Traversing the list fromo head to tail
-                old_tail = old_tail.next                    #Next node
-            old_tail.next = new_tail                        #Adding next node to the old tail
-            new_tail.next = None                            #Declaring he new_tail as tail
+            old_tail = self.tail                            #Save the old tail
+            self.tail = Node(element, None)                 #Instance of new tail node
+            old_tail.next = self.tail                       #Connecting old tail to new tail
+            self.tail = None                                #Declaring he new_tail as tail
             self.size += 1
         
-    def add_node(self, element, index):
-        '''Adding a node in the index specifies
-        this methos no overwrite the node with the same index,
-        it add a node between nodes if its necesary 
-        '''
-        if index == 0:
-            self.push_head(element)
-        elif index == self.size -1:
-            self.push_tail(element)
-        elif index < 0 or index > self.size-1 :
-            print(f"Index out of range, try with vailable index\nThe actua list have {self.size} nodes")
-        else:
-            previous_node= None                         #Initialice thevariable to save previous node
-            node_to_move = self.head                    #Start out pointer in the head
-                                                        #Instance of new node
-            for i in range(0 , index):                  #Trversing the listo from head to index
-                previous_node = node_to_move            #Saving the previous node
-                node_to_move = node_to_move.next        #moving to the next node    
-            
-            new_node = Node(element, node_to_move)      #Thenew node points to the node that have mo ve to make to add itself
-            previous_node.next = new_node               #previous node point to the new node
-            self.size += 1
 
     def top(self):
-        '''Consult the head element (not remove)'''
+        '''Consult the head element (not remove), the forn of the line'''
         if self.is_empty():
-            print("The list is empty, theres no head")
+            print("The Queue is empty, theres no head")
         else:
             return self.head.element    #Return the head element
+        
+    def back(self):
+        '''Consult the last element of the Queue'''
+        if self.is_empty():
+            print("The Queue is empty")
+        else:
+            return self.tail.element
         
     def __pop_unique_node(self):
         '''If want to remove the unique node of the list'''
