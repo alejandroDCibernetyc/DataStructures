@@ -14,7 +14,7 @@ class LinkedList:
         self.head = None        #reference to the head node
         self.size = 0           #number of list elements, initialize as empty 
     
-    def __len__(self):
+    def _len(self):
         '''Get th len of the list'''          
         return self.size
     
@@ -45,7 +45,7 @@ class LinkedList:
             new_tail.next = None                            #Declaring he new_tail as tail
             self.size += 1
         
-    def add_node(self, index, element):
+    def add_node(self, element, index):
         '''Adding a node in the index specifies
         this methos no overwrite the node with the same index,
         it add a node between nodes if its necesary 
@@ -63,8 +63,9 @@ class LinkedList:
             for i in range(0 , index):                  #Trversing the listo from head to index
                 previous_node = node_to_move            #Saving the previous node
                 node_to_move = node_to_move.next        #moving to the next node    
-            previous_node.next = new_node               #previous node point to the new node
+            
             new_node = Node(element, node_to_move)      #Thenew node points to the node that have mo ve to make to add itself
+            previous_node.next = new_node               #previous node point to the new node
             self.size += 1
 
     def top(self):
@@ -161,25 +162,56 @@ class LinkedList:
         '''
         current_node = self.head
         print(f"\n[Head]→", end=' ')
-        print(f"[{current_node.element}]--->", end=' ')
-        for i in range(0, self.size-1):
-            current_node = current_node.next
+        if self.size > 0:
             print(f"[{current_node.element}]--->", end=' ')
-        print(f"[None]", end=' ')
+            for i in range(0, self.size-1):
+                current_node = current_node.next
+                print(f"[{current_node.element}]--->", end=' ')
+        
+        print(f"[None]  [Tail]", end=' ')
         return
 
 
 
 if __name__ == "__main__":
+
+    #Execution example
     myList = LinkedList()
+    #Trying adding- push methods
     myList.push_head(5)
     myList.push_head(6)
     myList.push_head(7)
     myList.push_head(8)
     myList.show_list()
+
     myList.push_tail(4)
     myList.push_tail(3)
     myList.show_list()
+    
     myList.push_tail(3)
     myList.push_tail(3)
     myList.show_list()
+    
+    myList.add_node(2,6)
+    myList.add_node(1,7)
+    myList.show_list()
+    print(f"\nList Size: {myList._len()}")
+    #Trying pop methods
+    myList.pop_head()
+    myList.show_list()
+    print(f"\nList Size: {myList._len()}")
+    myList.remove(7)        #Removing node in index 7
+    myList.show_list()
+    print(f"\nList Size: {myList._len()}")
+    myList.pop_tail()
+    myList.show_list()
+    print(f"\nList Size: {myList._len()}")
+    for i in range(0, myList._len()):               #Removin all elements
+        myList.pop_head()
+        myList.show_list()
+        print(f"\nList Size: {myList._len()}")
+
+    #Trying to remove
+    myList.pop_head()       #Removing from the head
+    myList.pop_tail()       #Removing from the tail, but the list is empty
+    print(f"\nList Size: {myList._len()}")
