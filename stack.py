@@ -6,11 +6,11 @@ class Node:
         self.element = element
         self.next = next
 
-#Class LinkedList is in charge to manage the nodes (connect nodes) in a list
+#Class Stack is in charge to manage the nodes (connect nodes) in a list as LIFO
 class Stack:
     
     def __init__(self):
-        '''Çreate an empty Linked List'''
+        '''Çreate an empty Stack'''
         self.head = None        #reference to the head node
         self.size = 0           #number of list elements, initialize as empty 
     
@@ -62,21 +62,31 @@ class Stack:
         return
     
 
-    def show_list(self):
+    def show_stack(self):
         '''Method to show the hole linked list,
         consider that we just can se the output if the node.element == float, int , bolean or str
         if its node.element ==  object the output maybe doesn't look great, you may have to make some adjusment to this method
         '''
         current_node = self.head
-        print(f"\n[Head]\n   ↓")
+        print(f"\n[Head]\n  ↓")
         if self.size > 0:
-            print(f"[{current_node.element}]\n   ↓", )
+            print(f"[{current_node.element}]\n ↓", )
             for i in range(0, self.size-1):
                 current_node = current_node.next
-                print(f"[{current_node.element}]\n   ↓")
+                print(f"[{current_node.element}]\n ↓")
         
         print(f"[None]\n  ↑\n[Tail]")
         return
 
 if __name__ == "__main__":
-    pass
+    myStack = Stack()
+    #Pushing elements
+    for i in range(0,6):
+        myStack.push(i)
+    myStack.show_stack()
+    print(f"The top of the stack is {myStack.top()}")
+    #Removing elemnts
+    for i in range(0,4):
+        print(f"Removing the element {myStack.pop()}")
+    #Se the result
+    myStack.show_stack()
