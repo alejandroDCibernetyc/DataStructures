@@ -26,11 +26,47 @@ class LinkedList:
         '''check if the current node is the tail'''
         return node.next == None                   #Return True if it's the tail
     
-    def push(self, element):
+    def push_head(self, element):
         '''Add element to the top (in the head) of the list'''
         self.head = Node(element, self.head)        #Declare new node as Head
         self.size += 1                              #Increase the list size
-    
+        return
+
+    def push_tail(self, element):
+        '''Add node in the tail'''
+        if self.is_empty():
+            self.push_head(element)
+        else:
+            old_tail = self.head                            #Start our pointer
+            new_tail = Node(element, None)                        #Instance of new node
+            while (self.__is_tail(old_tail) == False):       #Traversing the list fromo head to tail
+                old_tail = old_tail.next                    #Next node
+            old_tail.next = new_tail                        #Adding next node to the old tail
+            new_tail.next = None                            #Declaring he new_tail as tail
+            self.size += 1
+        
+    def add_node(self, index, element):
+        '''Adding a node in the index specifies
+        this methos no overwrite the node with the same index,
+        it add a node between nodes if its necesary 
+        '''
+        if index == 0:
+            self.push_head(element)
+        elif index == self.size -1:
+            self.push_tail(element)
+        elif index < 0 or index > self.size-1 :
+            print(f"Index out of range, try with vailable index\nThe actua list have {self.size} nodes")
+        else:
+            previous_node= None                         #Initialice thevariable to save previous node
+            node_to_move = self.head                    #Start out pointer in the head
+                                                        #Instance of new node
+            for i in range(0 , index):                  #Trversing the listo from head to index
+                previous_node = node_to_move            #Saving the previous node
+                node_to_move = node_to_move.next        #moving to the next node    
+            previous_node.next = new_node               #previous node point to the new node
+            new_node = Node(element, node_to_move)      #Thenew node points to the node that have mo ve to make to add itself
+            self.size += 1
+
     def top(self):
         '''Consult the head element (not remove)'''
         if self.is_empty():
@@ -116,12 +152,34 @@ class LinkedList:
         previous_node.next = node_to_remove.next            #Previous node point to the next node of thenode that it is going to be removed
         self.size -= 1        
         return 
+    
+
+    def show_list(self):
+        '''Method to show the hole linked list,
+        consider that we just can se the output if the node.element == float, int , bolean or str
+        if its node.element ==  object the output maybe doesn't look great, you may have to make some adjusment to this method
+        '''
+        current_node = self.head
+        print(f"\n[Head]→", end=' ')
+        print(f"[{current_node.element}]--->", end=' ')
+        for i in range(0, self.size-1):
+            current_node = current_node.next
+            print(f"[{current_node.element}]--->", end=' ')
+        print(f"[None]", end=' ')
+        return
+
+
 
 if __name__ == "__main__":
     myList = LinkedList()
-    myList.push(5)
-    myList.push(6)
-    myList.push(7)
-    myList.push(8)
-    myList.pop_head()
-    print(myList.top())
+    myList.push_head(5)
+    myList.push_head(6)
+    myList.push_head(7)
+    myList.push_head(8)
+    myList.show_list()
+    myList.push_tail(4)
+    myList.push_tail(3)
+    myList.show_list()
+    myList.push_tail(3)
+    myList.push_tail(3)
+    myList.show_list()
